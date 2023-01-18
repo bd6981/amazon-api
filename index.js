@@ -17,9 +17,12 @@ app.get('/', (req, res) => {
 //Get product details
 app.get('/products/:productId', async (req, res) => {
     const { productId } = req.params;
+    const {api_key} = req.query
     
     try {
-        const response = await request(`${baseUrl}&url=http://www.amazon.com/dp/${productId}`);
+        const response = await request(
+          `${generateScraperUrl(apiKey)}&url=http://www.amazon.com/dp/${productId}`
+        );
         res.json(JSON.parse(response))
     } catch (error) {
         res.json(error)
@@ -29,9 +32,14 @@ app.get('/products/:productId', async (req, res) => {
 //Get product reviews
 app.get('/products/:productId/reviews', async (req, res) => {
     const { productId } = req.params;
+    const { api_key } = req.query;
     
     try {
-        const response = await request(`${baseUrl}&url=http://www.amazon.com/product-reviews/${productId}`);
+        const response = await request(
+          `${generateScraperUrl(
+            apiKey
+          )}&url=http://www.amazon.com/product-reviews/${productId}`
+        );
         res.json(JSON.parse(response))
     } catch (error) {
         res.json(error)
@@ -41,9 +49,14 @@ app.get('/products/:productId/reviews', async (req, res) => {
 //Get product offers
 app.get('/products/:productId/offers/', async (req, res) => {
     const { productId } = req.params;
+    const { api_key } = req.query;
     
     try {
-        const response = await request(`${baseUrl}&url=http://www.amazon.com/gp/offer-/${productId}`);
+        const response = await request(
+          `${generateScraperUrl(
+            apiKey
+          )}&url=http://www.amazon.com/gp/offer-/${productId}`
+        );
         res.json(JSON.parse(response))
     } catch (error) {
         res.json(error)
@@ -52,11 +65,14 @@ app.get('/products/:productId/offers/', async (req, res) => {
 // third route done --------^
 //Get search Query 
 app.get("/search/:searchQuery", async (req, res) => {
-  const { searchQuery } = req.params;
+    const { searchQuery } = req.params;
+    const { api_key } = req.query;
 
   try {
     const response = await request(
-      `${baseUrl}&url=http://www.amazon.com/s?k=${searchQuery}`
+      `${generateScraperUrl(
+        apiKey
+      )}&url=http://www.amazon.com/s?k=${searchQuery}`
     );
     res.json(JSON.parse(response));
   } catch (error) {
